@@ -2,8 +2,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import Shank from "./Shank/Shank";
 import Stone from "./Stone/Stone";
 import Head from "./Head/Head";
-import Effect from "./Effect";
-
+import * as THREE from "three";
 const ColorProps = {
   "ROSE GOLD": 0xf8b996,
 };
@@ -18,7 +17,7 @@ const materialProperties = {
 export default function Experience() {
   return (
     <>
-      <ambientLight intensity={1} />
+      <ambientLight intensity={1.2} />
       <directionalLight intensity={1} position={[10, 10, 10]} />
       <OrbitControls />
 
@@ -28,7 +27,6 @@ export default function Experience() {
         <Bloom mipmapBlur intensity={1.5} luminanceThreshold={0.9} />
         
       </EffectComposer> */}
-      
 
       <Environment preset="city" blur={0.5} />
 
