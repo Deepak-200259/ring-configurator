@@ -24,6 +24,7 @@ import regular from "./regular.png";
 import script from "./script.png";
 import italics from "./italics.png";
 import roman from "./roman.png";
+import diamondTexture from "./3532532.jpg"
 
 export {
   bezelHead,
@@ -51,7 +52,8 @@ export {
   regular,
   script,
   italics,
-  roman
+  roman,
+  diamondTexture
 };
 // export default function Assets(){
 //     return {

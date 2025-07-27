@@ -77,7 +77,7 @@ function EngravingPropertySelector({ property }) {
         <div className="sub-options-container">
           {property.subOptions1.map((option, index) => {
             return (
-              <div className={`${"font-option"} ${index === 0 ? "selected" : ""}`}>
+              <div className={`${"font-option"} ${index === 0 ? "selected" : ""}`} key={option.name}>
                 <img
                   className="font-icon"
                   src={option.img}

@@ -12,16 +12,26 @@ body {
 #root {
   width: 100vw;
   height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
 }
 
 .navigation-bar {
-  width: 30%;
-  height: max-content;
+  width: 30vw;
+  height: 100vh;
   padding: 0px 20px;
-  overflow-y: auto;
-  gap: 10px;
+  overflow-y: scroll; /* enable scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
   display: flex;
   flex-direction: column;
+  z-index: 10;
+}
+
+/* Hide scrollbar for WebKit (Chrome, Safari) */
+.navigation-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .ring-selection-tabs {
@@ -212,4 +222,12 @@ body {
   margin-top: 10px;
   text-align: center;
   cursor: pointer;
+}
+
+.canvas-container{
+  width: calc(70% - 60px) !important;
+  position: static !important;
+  position: fixed;
+  height: 100vh !important;
+  z-index: 1;
 }
