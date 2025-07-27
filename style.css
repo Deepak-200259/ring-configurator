@@ -6,10 +6,54 @@ body {
 }
 
 body {
-  background-color: #f2f2f2;
+  background-color: #e2e2e2;
 }
 
 #root {
   width: 100vw;
   height: 100vh;
+}
+
+.navigation-bar{
+  width: 30%;
+  height: max-content;
+  padding: 0px 20px;
+  overflow-y: auto;
+}
+
+.ring-selection-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+  padding: 10px 0px;
+  gap: 10px;
+}
+
+.ring-selection-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  height: 25px;
+  width: 25px;
+  border: 0px;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.ring-selection-tab.selected {
+  width: 80px;
+  height: 25px;
+  color: white;
+  background-color: #575757;
+  border: 0;
+  border-radius: 40px;
+  padding: 10px 19px;
+  font-size: 14px;
+  transition: none;
+  font-family: sans-serif;
 }
