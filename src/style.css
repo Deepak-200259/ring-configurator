@@ -1,0 +1,233 @@
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #e2e2e2;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.navigation-bar {
+  width: 30vw;
+  height: 100vh;
+  padding: 0px 20px;
+  overflow-y: scroll; /* enable scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+/* Hide scrollbar for WebKit (Chrome, Safari) */
+.navigation-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.ring-selection-tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: max-content;
+  padding: 10px 0px;
+  gap: 10px;
+}
+
+.ring-selection-tab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  height: 25px;
+  width: 25px;
+  border: 0px;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.ring-selection-tab.selected {
+  width: 80px;
+  height: 25px;
+  color: white;
+  background-color: #575757;
+  border: 0;
+  border-radius: 40px;
+  padding: 10px 19px;
+  font-size: 14px;
+  transition: none;
+  font-family: sans-serif;
+}
+
+.properties-selector-tab {
+  width: 100%;
+  gap: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.properties-section {
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.property-main-heading {
+  font-family: sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.property-options {
+  display: flex;
+  margin: 20px;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  gap: 1rem; /* optional spacing between items */
+  padding-bottom: 10px; /* optional: avoid scrollbars overlapping */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #999 transparent;
+}
+
+.property-options::-webkit-scrollbar {
+  height: 6px;
+}
+
+.property-options::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 4px;
+}
+
+.property-option {
+  flex: 0 0 auto; /* keeps children from shrinking */
+  text-align: center;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #666666;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.property-option:hover {
+  border: 1px solid #000000;
+}
+
+.property-icon {
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.property-sub-heading {
+  margin-left: 10px;
+  font-family: sans-serif;
+}
+
+.selected-property-option {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.engraving-text-input {
+  width: calc(100% - 15%);
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 9px 8px;
+  font-size: 14px;
+}
+
+  .sub-options-container {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+.font-option {
+  display: flex;
+  border: 1px solid #a8a8a8;
+  gap: 8px;
+  width: 20%;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  padding: 2px 5px 2px 5px;
+  margin-left: 0.1px;
+}
+
+.font-icon {
+  width: 100%;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.font-option:first-child{
+  border-radius: 10px 0px 0px 10px;
+}
+.font-option:last-child{
+  border-radius: 0px 10px 10px 0px;
+}
+
+.font-option.selected{
+  border: 1px solid #000;
+}
+
+.symbols{
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 90%;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.symbols:first-child{
+  margin-top: 0px;
+}
+
+.symbol{
+  font-size: 20px;
+  margin-top: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.canvas-container{
+  width: calc(70% - 60px) !important;
+  position: static !important;
+  position: fixed;
+  height: 100vh !important;
+  z-index: 1;
+}
