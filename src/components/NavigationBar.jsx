@@ -126,10 +126,11 @@ export default function NavigationBar() {
       e.target instanceof HTMLParagraphElement
         ? e.target.parentElement
         : e.target;
-
-    for (const child of target.children.parentElement) {
+    console.log(target);
+    
+    for (const child of target.parentElement.children) {
       child.classList.contains("selected") &&
-        child.classList.remove("selected");
+      child.classList.remove("selected");
     }
     target.classList.add("selected");
   };
