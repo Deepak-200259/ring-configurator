@@ -41,19 +41,21 @@ const PropertiesSelectorOptions = [
     includesEngraving: false,
     mainOptionsHasText: false,
     options: [
-      { name: "PLAIN", img: plain, price: 1000 },
-      { name: "CATHEDRAL", img: cathedral, price: 1000 },
-      { name: "KNIFE EDGE", img: knifeEdge, price: 2000 },
-      { name: "SPLIT", img: split, price: 3000 },
-      { name: "TWISTED", img: twisted, price: 4000 },
-      { name: "WIDE PLAIN", img: widePlain, price: 5000 },
+      { name: "Plain", img: plain, price: 1500, isSelected: true },
+      { name: "Cathedral", img: cathedral, price: 2500, isSelected: false },
+      { name: "Knife Edge", img: knifeEdge, price: 3500, isSelected: false },
+      { name: "Split", img: split, price: 4500, isSelected: false },
+      { name: "Twisted", img: twisted, price: 5500, isSelected: false },
+      { name: "Wide Plain", img: widePlain, price: 6500, isSelected: false },
+      { name: "Channel", img: channel, price: 7500, isSelected: false },
+      { name: "Plate Prong", img: plateProng, price: 8500, isSelected: false },
     ],
     subHeadingName: "SIDE SETTING",
     subOptionsHasText: false,
     subOptions: [
-      { name: "NONE", img: plain, price: 0 },
-      { name: "CHANNEL", img: channel, price: 500 },
-      { name: "PLATE PRONG", img: plateProng, price: 1000 },
+      { name: "None", img: plain, price: 0, isSelected: true },
+      { name: "Channel", img: channel, price: 500, isSelected: false },
+      { name: "Plate Prong", img: plateProng, price: 1000, isSelected: false },
     ],
   },
   {
@@ -61,16 +63,16 @@ const PropertiesSelectorOptions = [
     includesEngraving: false,
     mainOptionsHasText: false,
     options: [
-      { name: "WHITE GOLD", img: whiteGold, price: 500 },
-      { name: "YELLOW GOLD", img: yellowGold, price: 500 },
-      { name: "ROSE GOLD", img: roseGold, price: 500 },
-      { name: "PLATINUM", img: platinum, price: 500 },
+      { name: "White Gold", img: whiteGold, price: 500, isSelected: false },
+      { name: "Yellow Gold", img: yellowGold, price: 500, isSelected: false },
+      { name: "Rose Gold", img: roseGold, price: 500, isSelected: false },
+      { name: "Platinum", img: platinum, price: 500, isSelected: false },
     ],
     subHeadingName: "CARAT",
     subOptionsHasText: true,
     subOptions: [
-      { name: "14K", price: 0 },
-      { name: "18K", price: 500 },
+      { name: "14K", price: 0, isSelected: false },
+      { name: "18K", price: 500, isSelected: false },
     ],
   },
   {
@@ -105,7 +107,7 @@ const PropertiesSelectorOptions = [
   },
 ];
 
-export default function NavigationBar() {
+export default function NavigationBar(props) {
   const [currentTab, setCurrentTab] = useState(RingSelectionTabOptions[0]);
   const [currentStyle, setCurrentStyle] = useState(
     PropertiesSelectorOptions[0].options[0].name
@@ -127,12 +129,41 @@ export default function NavigationBar() {
         ? e.target.parentElement
         : e.target;
     console.log(target);
-    
+
     for (const child of target.parentElement.children) {
       child.classList.contains("selected") &&
-      child.classList.remove("selected");
+        child.classList.remove("selected");
     }
     target.classList.add("selected");
+  };
+
+  const onSelectProperty = (category, optionName, isSubOption = false) => {
+    const updatedOptions = [...PropertiesSelectorOptions];
+
+    updatedOptions.forEach((group) => {
+      if (group.name === category) {
+        if (isSubOption) {
+          group.subOptions = group.subOptions.map((opt) => ({
+            ...opt,
+            isSelected: opt.name === optionName,
+          }));
+
+          if (category === "STYLE") setCurrentSideSetting(optionName);
+          if (category === "METAL") setCurrentCarat(optionName);
+        } else {
+          group.options = group.options.map((opt) => ({
+            ...opt,
+            isSelected: opt.name === optionName,
+          }));
+
+          if (category === "STYLE") {
+            setCurrentStyle(optionName);
+            props.setSelectedStyle(optionName); // <--- pass selection to App
+          }
+          if (category === "METAL") setCurrentMetal(optionName);
+        }
+      }
+    });
   };
 
   return (
@@ -151,6 +182,7 @@ export default function NavigationBar() {
             currentSideSetting={i == 0 ? currentSideSetting : null}
             currentMetal={i == 1 ? currentMetal : null}
             currentCarat={i == 1 ? currentCarat : null}
+            onSelectProperty={onSelectProperty}
           />
         ))}
       </div>

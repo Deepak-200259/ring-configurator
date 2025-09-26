@@ -6,7 +6,7 @@ body {
 }
 
 body {
-  background-color: #e2e2e2;
+  background-color: #f8f8f8;
 }
 
 #root {
@@ -18,7 +18,7 @@ body {
 }
 
 .navigation-bar {
-  width: 30vw;
+  width: 360px;
   height: 100vh;
   padding: 0px 20px;
   overflow-y: scroll; /* enable scrolling */
@@ -69,6 +69,7 @@ body {
   font-size: 14px;
   transition: none;
   font-family: sans-serif;
+  gap: 10px;
 }
 
 .properties-selector-tab {
@@ -96,16 +97,15 @@ body {
 }
 
 .property-options {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
   margin: 20px;
-  flex-direction: row;
-  overflow-x: auto;
-  overflow-y: hidden;
-  white-space: nowrap;
-  gap: 1rem; /* optional spacing between items */
-  padding-bottom: 10px; /* optional: avoid scrollbars overlapping */
-  scrollbar-width: thin; /* Firefox */
-  scrollbar-color: #999 transparent;
+  padding-bottom: 10px;
+}
+
+.property-options > * {
+  min-width: 0; /* prevents overflowing content */
 }
 
 .property-options::-webkit-scrollbar {
@@ -123,15 +123,21 @@ body {
   cursor: pointer;
   width: 50px;
   height: 50px;
-  border: 1px solid #666666;
+  border: 1px solid #7f7f7f;
   border-radius: 50%;
+  background-color: rgba(72, 68, 68, 0.148);
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.property-option.selected{
+  border: 2px solid #000000 !important;
+  background-color: rgba(255, 255, 255, 0.237);
+}
+
 .property-option:hover {
-  border: 1px solid #000000;
+  border: 2px solid #525151;
 }
 
 .property-icon {
