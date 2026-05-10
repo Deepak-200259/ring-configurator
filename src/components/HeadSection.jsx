@@ -1,0 +1,94 @@
+import { useState } from "react";
+
+export default function HeadSection({
+  options,
+  currentHeadStyle,
+  onSelectProperty,
+  biMetalEnabled,
+  onToggleBiMetal,
+}) {
+  return options.map((propertySelector, i) => (
+    <HeadPropertySelector
+      content={propertySelector}
+      key={propertySelector.name}
+      currentStyle={i === 0 ? currentHeadStyle : null}
+      onSelectProperty={onSelectProperty}
+      toggleSwitch={
+        propertySelector.hasToggleSwitch
+          ? { value: biMetalEnabled, onChange: onToggleBiMetal }
+          : undefined
+      }
+      disableMainOptions={Boolean(propertySelector.hasToggleSwitch && !biMetalEnabled)}
+    />
+  ));
+}
+
+function HeadPropertySelector({
+  content,
+  currentStyle,
+  onSelectProperty,
+  toggleSwitch,
+  disableMainOptions,
+}) {
+  const [hoveredOption, setHoveredOption] = useState(null);
+  const toggleOn = Boolean(toggleSwitch?.value);
+  const displayMain =
+    hoveredOption ??
+    content.options?.find((opt) =>
+      content.hasToggleSwitch
+        ? toggleOn && opt.isSelected
+        : currentStyle
+          ? opt.name === currentStyle
+          : false,
+    );
+
+  return (
+    <div className="properties-selector-tab">
+      <div className="properties-section">
+        <h4
+          className={`property-main-heading${content.hasToggleSwitch ? " property-heading-with-toggle" : ""}`}
+        >
+          <span className="property-heading-title">
+            {content.name}{" "}
+            <span className="selected-property-option">
+              {displayMain
+                ? content.hasToggleSwitch
+                  ? displayMain.name
+                  : `${displayMain.name} (+ ₹${displayMain.price})`
+                : ""}
+            </span>
+          </span>
+          {content.hasToggleSwitch && toggleSwitch ? (
+            <button
+              type="button"
+              role="switch"
+              aria-checked={toggleOn}
+              aria-label={`${toggleOn ? "Disable" : "Enable"} ${content.name}`}
+              className={`property-switch-btn${toggleOn ? " property-switch-btn--on" : ""}`}
+              onClick={() => toggleSwitch.onChange(!toggleOn)}
+            >
+              <span className="property-switch-thumb" aria-hidden />
+            </button>
+          ) : null}
+        </h4>
+
+        <div className="property-options">
+          {content.options.map((option) => (
+            <div
+              className={`property-option ${option.isSelected ? "selected" : ""} ${disableMainOptions ? "property-option-disabled" : ""}`}
+              key={option.name}
+              onClick={() => {
+                if (disableMainOptions) return;
+                onSelectProperty(content.name, option.name);
+              }}
+              onMouseEnter={() => setHoveredOption(option)}
+              onMouseLeave={() => setHoveredOption(null)}
+            >
+              <img className="property-icon" src={option.img} alt={option.name} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

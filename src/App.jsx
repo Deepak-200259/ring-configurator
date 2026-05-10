@@ -1,21 +1,43 @@
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
+import { useEffect } from "react";
+import ChangeViewButton from "./components/ChangeViewButton";
+import FaqDropdown from "./components/FaqDropdown";
 import NavigationBar from "./components/NavigationBar";
+import PriceSummaryPanel from "./components/PriceSummaryPanel";
+import { RingConfiguratorProvider } from "./context/RingConfiguratorContext";
 import Experience from "./experience/Experience";
 
 export default function App() {
-  const [selectedStyle, setSelectedStyle] = useState("Plain"); // default style
+  useEffect(() => {
+    const blockMenu = (e) => {
+      e.preventDefault();
+    };
+    document.addEventListener("contextmenu", blockMenu);
+    return () => document.removeEventListener("contextmenu", blockMenu);
+  }, []);
 
   return (
-    <>
-      <NavigationBar setSelectedStyle={setSelectedStyle} />
-      <Canvas
-        className="canvas-container"
-        camera={{ position: [0, 0, 20], fov: 50 }}
-        scene={{ background: 0xffffff, backgroundIntensity: 1 }}
-      >
-        <Experience selectedStyle={selectedStyle} />
-      </Canvas>
-    </>
+    <RingConfiguratorProvider>
+      <div className="app-shell">
+        <div className="app-shell__canvas-column">
+          <div className="canvas-overlay-top">
+            <div className="canvas-overlay-top__toolbar">
+              <ChangeViewButton />
+              <FaqDropdown />
+              <PriceSummaryPanel />
+            </div>
+          </div>
+          <Canvas
+            className="canvas-container"
+            camera={{ position: [0, 0, 30], fov: 30 }}
+            shadows
+            scene={{ background: "#f8f8f8", backgroundIntensity: 1 }}
+          >
+            <Experience />
+          </Canvas>
+        </div>
+        <NavigationBar />
+      </div>
+    </RingConfiguratorProvider>
   );
 }

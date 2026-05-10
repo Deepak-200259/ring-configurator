@@ -6,7 +6,7 @@ import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Color } from "three";
 
-export function RoundHead(props) {
+export default function RoundHead(props) {
   const { nodes, materials } = useGLTF("/models/head/Round.glb");
   materials["ROSE GOLD"].metalness = props.metalness;
   materials["ROSE GOLD"].roughness = props.roughness;

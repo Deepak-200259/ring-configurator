@@ -1,33 +1,39 @@
-export default function RingSelectionTabs(props) {
+export default function RingSelectionTabs({
+  selectedOption,
+  options,
+  onClick,
+  endAction,
+}) {
   return (
-    <>
-      <div className="ring-selection-tabs">
-        {props.options.map((option, index) => {
+    <div className="ring-selection-tabs">
+      <div className="ring-selection-tabs__items">
+        {options.map((option, index) => {
           return (
             <div
               className={
-                props.selectedOption === option
+                selectedOption === option
                   ? "ring-selection-tab selected"
                   : "ring-selection-tab"
               }
               key={index}
-              onClick={(e) => props.onClick(option, e)}
+              onClick={(e) => onClick(option, e)}
             >
               <img
                 src={
-                  props.selectedOption.name == option.name
-                    ? props.selectedOption.activeImg
+                  selectedOption.name == option.name
+                    ? selectedOption.activeImg
                     : option.inactiveImg
                 }
-                alt={props.selectedOption.name}
+                alt={selectedOption.name}
               />
-              {props.selectedOption.name === option.name
-                ? <p> {props.selectedOption.name} </p>
-                : null}
+              {selectedOption.name === option.name ? (
+                <p> {selectedOption.name} </p>
+              ) : null}
             </div>
           );
         })}
       </div>
-    </>
+      {endAction ?? null}
+    </div>
   );
 }
