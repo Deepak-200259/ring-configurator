@@ -1,0 +1,253 @@
+/* Diamond loader — adapted from https://codepen.io/nicolagrosu/pen/QvMKzx */
+
+.initial-loader ul,
+.initial-loader li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.initial-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #a3a3a3;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.initial-loader.initial-loader--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.initial-loader .diamondCon {
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.initial-loader__diamond {
+  display: block;
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
+.initial-loader__diamond li {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  opacity: 0;
+  z-index: 100;
+  transition: 400ms ease;
+}
+
+.initial-loader__diamond li:nth-child(1) {
+  border-width: 20px 20px 0 20px;
+  border-color: #7ad997 transparent transparent transparent;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation:
+    initial-loader-triangle1 200ms 2.2s ease,
+    initial-loader-shimmer 2s 2.4s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__diamond li:nth-child(2) {
+  border-width: 0 20px 20px 20px;
+  border-color: transparent transparent #64c592;
+  left: 59px;
+  animation:
+    initial-loader-triangle2 200ms 1.8s ease,
+    initial-loader-shimmer 2s 2.4s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__diamond li:nth-child(3) {
+  border-width: 0 20px 20px 20px;
+  border-color: transparent transparent #54b28d;
+  right: 59px;
+  animation:
+    initial-loader-triangle3 200ms 2s ease,
+    initial-loader-shimmer 2s 2.4s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__diamond li:nth-child(4) {
+  border-width: 20px 20px 0 20px;
+  border-color: #7ad997 transparent transparent transparent;
+  animation:
+    initial-loader-triangle4 200ms 1.6s ease,
+    initial-loader-shimmer 2s 2.6s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__diamond li:nth-child(5) {
+  border-width: 20px 20px 0 20px;
+  border-color: #b4fea5 transparent transparent transparent;
+  animation:
+    initial-loader-triangle5 200ms 1.4s ease,
+    initial-loader-shimmer 2s 2.6s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__diamond li:nth-child(6) {
+  border-width: 0 20px 20px 20px;
+  border-color: transparent transparent #90ef9d;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation:
+    initial-loader-triangle6 200ms 1.2s ease,
+    initial-loader-shimmer 2s 2.6s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__diamond li:nth-child(7) {
+  border-width: 20px 20px 0 20px;
+  border-color: #c9feac transparent transparent transparent;
+  left: 0;
+  right: 0;
+  margin: auto;
+  animation:
+    initial-loader-triangle7 200ms 1s ease,
+    initial-loader-shimmer 2s 2.8s ease infinite;
+  animation-fill-mode: forwards;
+}
+
+.initial-loader__text {
+  width: 260px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  translate: -50% 0;
+  text-align: center;
+  line-height: 50px;
+  font-size: 28px;
+  font-family: "Dancing Script", cursive;
+  color: #000000;
+  white-space: nowrap;
+  opacity: 0;
+  animation: initial-loader-text 500ms 2.4s ease;
+  animation-fill-mode: forwards;
+}
+
+@keyframes initial-loader-triangle1 {
+  0% {
+    top: -50px;
+    opacity: 0;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-triangle2 {
+  0% {
+    top: -50px;
+    opacity: 0;
+  }
+  100% {
+    top: 1px;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-triangle3 {
+  0% {
+    top: -50px;
+    opacity: 0;
+  }
+  100% {
+    top: 1px;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-triangle4 {
+  0% {
+    right: 59px;
+    top: -33px;
+    opacity: 0;
+  }
+  100% {
+    right: 59px;
+    top: 22px;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-triangle5 {
+  0% {
+    left: 59px;
+    top: -33px;
+    opacity: 0;
+  }
+  100% {
+    left: 59px;
+    top: 22px;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-triangle6 {
+  0% {
+    top: -33px;
+    opacity: 0;
+  }
+  100% {
+    top: 23px;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-triangle7 {
+  0% {
+    top: -10px;
+    opacity: 0;
+  }
+  100% {
+    top: 44px;
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-shimmer {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes initial-loader-text {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  100% {
+    top: 70px;
+    opacity: 1;
+  }
+}
+
+.initial-loader__text #initial-loader-percent {
+  margin-left: 0.2em;
+  font-variant-numeric: tabular-nums;
+}

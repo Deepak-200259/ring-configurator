@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,9 +6,60 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"
     />
-    <title>Ring Configurator</title>
+    <meta
+      name="description"
+      content="Design an engagement ring in the browser—pick head style, shank, center stone, metal, and see it in 3D."
+    />
+    <meta name="theme-color" content="#f8f8f8" />
+    <title>3D Ring Configurator</title>
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <style>
+      .initial-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483646;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #a3a3a3;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./initial-loader.css" />
   </head>
   <body>
+    <div
+      id="initial-loader"
+      class="initial-loader"
+      role="progressbar"
+      aria-busy="true"
+      aria-live="polite"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      aria-valuetext="Loading 0%"
+    >
+      <div class="diamondCon">
+        <ul class="initial-loader__diamond">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <div class="initial-loader__text">
+          Loading…
+          <span id="initial-loader-percent">0%</span>
+        </div>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/index.jsx"></script>
   </body>
