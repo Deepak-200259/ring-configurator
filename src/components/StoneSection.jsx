@@ -10,6 +10,8 @@ export default function StoneSection({
 }) {
   const {
     selectedStoneCaratWeight,
+    selectedStoneMaterialType,
+    selectedStoneMaterialVariant,
     setSelectedStoneMaterialType,
     setSelectedStoneMaterialVariant,
     setSelectedStoneCaratWeight,
@@ -20,10 +22,10 @@ export default function StoneSection({
   const typeConfig = options.find((g) => g.name === "TYPE");
 
   const [caratValue, setCaratValue] = useState(selectedStoneCaratWeight);
-  const [selectedType, setSelectedType] = useState(
-    typeConfig?.options?.[0]?.name ?? "Colorless",
-  );
-  const [selectedTypeOption, setSelectedTypeOption] = useState("");
+
+  /** Persist TYPE UI via context — local state reset on tab change incorrectly defaulted to Colorless. */
+  const selectedType = selectedStoneMaterialType;
+  const selectedTypeOption = selectedStoneMaterialVariant ?? "";
 
   const currentTypeConfig = typeConfig?.options?.find(
     (opt) => opt.name === selectedType,
@@ -92,7 +94,9 @@ export default function StoneSection({
             <h4 className="property-main-heading">
               TYPE{" "}
               <span className="selected-property-option">
-                {selectedTypeOption || selectedType}
+                {selectedStoneMaterialVariant?.trim()
+                  ? selectedStoneMaterialVariant
+                  : selectedStoneMaterialType}
               </span>
             </h4>
 
@@ -111,15 +115,12 @@ export default function StoneSection({
                     aria-checked={isSelected}
                     className={`stone-type-category ${isSelected ? "stone-type-category--selected" : ""}`}
                     onClick={() => {
-                      setSelectedType(option.name);
                       setSelectedStoneMaterialType(option.name);
                       const firstSub = option.options?.[0];
                       if (firstSub) {
-                        setSelectedTypeOption(firstSub.name);
                         setSelectedStoneMaterialVariant(firstSub.name);
                         setStoneColor(firstSub.color ?? "#ffffff");
                       } else {
-                        setSelectedTypeOption("");
                         setSelectedStoneMaterialVariant("");
                         setStoneColor("#ffffff");
                       }
@@ -151,7 +152,6 @@ export default function StoneSection({
                         aria-pressed={isSelected}
                         className={`stone-type-swatch ${isSelected ? "stone-type-swatch--selected" : ""}`}
                         onClick={() => {
-                          setSelectedTypeOption(option.name);
                           setSelectedStoneMaterialVariant(option.name);
                           if (option.color != null) {
                             setStoneColor(option.color);

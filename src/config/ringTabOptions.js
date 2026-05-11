@@ -13,7 +13,6 @@ import {
   greenSapphire,
   heartStone,
   hiddenHaloHead,
-  italics,
   knifeEdge,
   marquiseStone,
   moissanite,
@@ -29,13 +28,10 @@ import {
   princessStone,
   purpleColor,
   radiantStone,
-  regular,
-  roman,
   redColor,
   redRuby,
   roseGold,
   roundStone,
-  script,
   singleHaloHead,
   split,
   cathedral,
@@ -53,7 +49,6 @@ import {
 export const ShankTabOptions = [
   {
     name: 'STYLE',
-    includesEngraving: false,
     mainOptionsHasText: false,
     options: [
       { name: 'Plain', img: plain, price: 1500, isSelected: true },
@@ -75,7 +70,6 @@ export const ShankTabOptions = [
   },
   {
     name: 'METAL',
-    includesEngraving: false,
     mainOptionsHasText: false,
     options: [
       { name: 'White Gold', img: whiteGold, price: 500, isSelected: true },
@@ -89,36 +83,6 @@ export const ShankTabOptions = [
       { name: '9K', price: 0, isSelected: true },
       { name: '14K', price: 800, isSelected: false },
       { name: '18K', price: 1000, isSelected: false }
-    ]
-  },
-  {
-    name: 'ADD ENGRAVING',
-    includesEngraving: true,
-    subHeading1: 'SELECT A FONT',
-    subOptions1: [
-      { name: 'REGULAR', img: regular },
-      { name: 'SCRIPT', img: script },
-      { name: 'ITALICS', img: italics },
-      { name: 'ROMAN', img: roman }
-    ],
-    subHeading2: 'ADD SYMBOLS',
-    subOptions2: [
-      '♡',
-      '★',
-      '☽',
-      '∞',
-      '☯︎',
-      '♑︎',
-      '♓︎',
-      '♈︎',
-      '♉︎',
-      '♒︎',
-      '♋︎',
-      '♌︎',
-      '♍︎',
-      '♎︎',
-      '♏︎',
-      '♐︎'
     ]
   }
 ]
@@ -171,7 +135,7 @@ export const HeadTabOptions = [
         img: threeStoneHead,
         price: 600,
         isSelected: false,
-        allowedStoneShapes: ['Round', 'Princess', 'Oval']
+        allowedStoneShapes: ['Oval', 'Round', 'Princess']
       }
     ]
   },
@@ -250,15 +214,15 @@ export const StoneTabOptions = [
 ]
 
 /** Default center-stone carat — keeps slider, context, and pricing aligned with CARAT.sliderOptions. */
-export function getDefaultStoneCaratWeight() {
-  const caratGroup = StoneTabOptions.find((g) => g.name === "CARAT");
-  const opts = caratGroup?.sliderOptions;
-  if (!opts) return 0.25;
-  const min = typeof opts.min === "number" ? opts.min : 0.25;
-  const max = typeof opts.max === "number" ? opts.max : min;
+export function getDefaultStoneCaratWeight () {
+  const caratGroup = StoneTabOptions.find(g => g.name === 'CARAT')
+  const opts = caratGroup?.sliderOptions
+  if (!opts) return 0.25
+  const min = typeof opts.min === 'number' ? opts.min : 0.25
+  const max = typeof opts.max === 'number' ? opts.max : min
   const raw =
-    typeof opts.value === "number" && Number.isFinite(opts.value)
+    typeof opts.value === 'number' && Number.isFinite(opts.value)
       ? opts.value
-      : min;
-  return Math.min(max, Math.max(min, raw));
+      : min
+  return Math.min(max, Math.max(min, raw))
 }
