@@ -120,6 +120,7 @@ function meshSpread(entry) {
 export function Shank({ selectedStyle, ...props }) {
   const entry = getShankEntry(selectedStyle);
   const ShankComponent = entry.component;
+
   return (
     <ShankComponent
       {...meshSpread(entry)}

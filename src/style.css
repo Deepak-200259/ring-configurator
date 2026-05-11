@@ -58,7 +58,7 @@ body {
 
 .navigation-bar {
   box-sizing: border-box;
-  width: 360px;
+  width: 400px;
   flex-shrink: 0;
   height: 100%;
   min-height: 0;
@@ -223,6 +223,16 @@ body {
   cursor: pointer;
   flex-shrink: 0;
   box-sizing: content-box;
+  gap: 0;
+  overflow: hidden;
+  transition:
+    width 220ms ease,
+    background-color 220ms ease,
+    color 220ms ease,
+    border-radius 220ms ease,
+    padding 220ms ease,
+    box-shadow 220ms ease,
+    transform 180ms ease;
 }
 
 button.ring-selection-tab {
@@ -260,13 +270,31 @@ button.ring-selection-tab {
   border-radius: 40px;
   padding: 10px 19px;
   font-size: 14px;
-  transition: none;
   font-family:
     system-ui,
     -apple-system,
     "Segoe UI",
     sans-serif;
   gap: 10px;
+}
+
+.ring-selection-tab__label {
+  margin: 0;
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-4px);
+  white-space: nowrap;
+  overflow: hidden;
+  transition:
+    max-width 220ms ease,
+    opacity 160ms ease,
+    transform 220ms ease;
+}
+
+.ring-selection-tab.selected .ring-selection-tab__label {
+  max-width: 70px;
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .properties-selector-tab {
@@ -485,95 +513,16 @@ button.ring-selection-tab {
   white-space: normal;
 }
 
-.engraving-input-row {
+.sub-options-container {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: row;
   width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+  justify-content: center;
+  align-items: center;
+  justify-self: center;
   margin-top: 10px;
   margin-bottom: 10px;
-  box-sizing: border-box;
 }
-
-.engraving-text-input {
-  flex: 1;
-  min-width: 0;
-  border: 1px solid #000;
-  border-radius: 8px;
-  padding: 9px 8px;
-  font-size: 14px;
-}
-
-.engraving-action-btn {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  border: 2px solid #7f7f7f;
-  background-color: rgba(72, 68, 68, 0.08);
-  cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
-}
-
-.engraving-action-btn:focus {
-  outline: none;
-}
-
-.engraving-action-btn:focus-visible {
-  outline: 2px solid #333;
-  outline-offset: 2px;
-}
-
-.engraving-action-btn:hover {
-  border-color: #525151;
-  background-color: rgba(72, 68, 68, 0.14);
-}
-
-.engraving-action-btn--confirm {
-  color: #1a7f37;
-}
-
-.engraving-action-btn--confirm:hover {
-  border-color: #1a7f37;
-  background-color: rgba(26, 127, 55, 0.12);
-}
-
-.engraving-action-btn--cancel {
-  color: #b42318;
-}
-
-.engraving-action-btn--cancel:hover {
-  border-color: #b42318;
-  background-color: rgba(180, 35, 24, 0.1);
-}
-
-.engraving-action-btn:disabled {
-  opacity: 0.38;
-  cursor: not-allowed;
-  pointer-events: none;
-  color: #666;
-}
-
-.engraving-action-btn:disabled:hover {
-  border-color: #7f7f7f;
-  background-color: rgba(72, 68, 68, 0.08);
-}
-
-  .sub-options-container {
-    display: flex;
-    flex-direction: row;
-    width: 90%;
-    justify-content: center;
-    align-items: center;
-    justify-self: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
 
 .font-option, .stone-option {
   display: flex;
@@ -586,6 +535,7 @@ button.ring-selection-tab {
   justify-self: center;
   padding: 2px 5px 2px 5px;
   margin-left: 0.1px;
+  cursor: pointer;
 }
 
 .font-icon {
@@ -625,6 +575,12 @@ button.ring-selection-tab {
   margin-top: 10px;
   text-align: center;
   cursor: pointer;
+}
+
+.symbol:focus-visible,
+.font-option:focus-visible {
+  outline: 2px solid #333;
+  outline-offset: 1px;
 }
 
 .canvas-container {
@@ -792,14 +748,12 @@ button.ring-selection-tab {
 }
 
 .price-summary__dropdown {
-  position: fixed;
-  top: calc(
-    env(safe-area-inset-top, 0px) + var(--overlay-top-pad, 12px) +
-      var(--overlay-toolbar-min-h, 52px) + var(--overlay-panel-gap, 10px)
-  );
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
+  /* Desktop: anchor below this trigger (toolbar top-right). Mobile overrides to centered fixed. */
+  position: absolute;
+  top: calc(100% + var(--overlay-panel-gap, 10px));
+  left: auto;
+  right: 0;
+  transform: none;
   width: min(340px, calc(100vw - 24px));
   max-width: calc(100vw - 24px);
   box-sizing: border-box;
@@ -946,14 +900,11 @@ button.ring-selection-tab {
 }
 
 .faq-dropdown__panel {
-  position: fixed;
-  top: calc(
-    env(safe-area-inset-top, 0px) + var(--overlay-top-pad, 12px) +
-      var(--overlay-toolbar-min-h, 52px) + var(--overlay-panel-gap, 10px)
-  );
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
+  position: absolute;
+  top: calc(100% + var(--overlay-panel-gap, 10px));
+  left: auto;
+  right: 0;
+  transform: none;
   width: min(360px, calc(100vw - 24px));
   max-width: calc(100vw - 24px);
   box-sizing: border-box;
@@ -1341,14 +1292,23 @@ button.ring-selection-tab {
     text-overflow: ellipsis;
   }
 
-  /* Dropdowns: centered; viewport-bound width */
+  /* Narrow screens: center panels under toolbar band (fixed overlay) */
   .price-summary__dropdown,
   .faq-dropdown__panel {
+    position: fixed;
+    top: calc(
+      env(safe-area-inset-top, 0px) + var(--overlay-top-pad, 6px) +
+        var(--overlay-toolbar-min-h, 44px) + var(--overlay-panel-gap, 8px)
+    );
     left: 50%;
     right: auto;
     transform: translateX(-50%);
     width: min(340px, calc(100vw - 16px));
     max-width: calc(100vw - 16px);
     box-sizing: border-box;
+  }
+
+  .faq-dropdown__panel {
+    width: min(360px, calc(100vw - 16px));
   }
 }

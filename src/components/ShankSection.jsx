@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { shankSupportsMatchingBand } from "../config/shankMatchingBandSupport";
+import { shankStyleBlocksThreeStone } from "../config/threeStoneShankCompatibility";
 
 export default function ShankSection({
   options,
@@ -10,6 +11,7 @@ export default function ShankSection({
   onSelectProperty,
   matchingBandEnabled,
   onToggleMatchingBand,
+  threeStoneHeadSelected,
 }) {
   return options.map((propertySelector, i) => (
     <ShankPropertySelector
@@ -22,6 +24,7 @@ export default function ShankSection({
       onSelectProperty={onSelectProperty}
       matchingBandEnabled={i === 0 ? matchingBandEnabled : undefined}
       onToggleMatchingBand={i === 0 ? onToggleMatchingBand : undefined}
+      threeStoneHeadSelected={threeStoneHeadSelected}
     />
   ));
 }
@@ -35,6 +38,7 @@ function ShankPropertySelector({
   onSelectProperty,
   matchingBandEnabled,
   onToggleMatchingBand,
+  threeStoneHeadSelected,
 }) {
   const [hoveredOption, setHoveredOption] = useState(null);
   const [hoveredSubOption, setHoveredSubOption] = useState(null);
@@ -75,14 +79,6 @@ function ShankPropertySelector({
   const displayedSubOption = disableSubOptions ? null : displaySub;
   const isStyleSection = content.name === "STYLE";
 
-  if (content.includesEngraving) {
-    return (
-      <div className="properties-selector-tab">
-        <ShankEngravingSection property={content} />
-      </div>
-    );
-  }
-
   return (
     <div className="properties-selector-tab">
       <div className="properties-section">
@@ -100,17 +96,23 @@ function ShankPropertySelector({
                 isStyleSection &&
                 matchingBandEnabled &&
                 !shankSupportsMatchingBand(option.name);
+              const disableThreeStoneShankConflict =
+                Boolean(threeStoneHeadSelected) &&
+                isStyleSection &&
+                shankStyleBlocksThreeStone(option.name);
+              const disabledStyleOption =
+                disableMainStyleOption || disableThreeStoneShankConflict;
               return (
                 <div
-                  className={`property-option ${option.isSelected ? "selected" : ""}${disableMainStyleOption ? " property-option-disabled" : ""}`}
+                  className={`property-option ${option.isSelected ? "selected" : ""}${disabledStyleOption ? " property-option-disabled" : ""}`}
                   key={option.name}
                   onClick={() => {
-                    if (disableMainStyleOption) return;
+                    if (disabledStyleOption) return;
                     onSelectProperty(content.name, option.name);
                   }}
                   onMouseEnter={() => setHoveredOption(option)}
                   onMouseLeave={() => setHoveredOption(null)}
-                  aria-disabled={disableMainStyleOption || undefined}
+                  aria-disabled={disabledStyleOption || undefined}
                 >
                   <img
                     className="property-icon"
@@ -191,103 +193,6 @@ function ShankPropertySelector({
             </div>
           </>
         ) : null}
-      </div>
-    </div>
-  );
-}
-
-function ShankEngravingSection({ property }) {
-  const [draftText, setDraftText] = useState("");
-  const [committedText, setCommittedText] = useState("");
-  const hasPendingChanges = draftText !== committedText;
-
-  const handleConfirm = () => {
-    const next = draftText.trim();
-    setCommittedText(next);
-    setDraftText(next);
-  };
-
-  const handleCancel = () => {
-    setDraftText(committedText);
-  };
-
-  return (
-    <div className="properties-section">
-      <h4 className="property-main-heading">{property.name}</h4>
-      <div className="engraving-input-row">
-        <input
-          type="text"
-          name="EngravingText"
-          id="engraving-text-input"
-          placeholder="Type here"
-          className="engraving-text-input"
-          value={draftText}
-          onChange={(e) => setDraftText(e.target.value)}
-        />
-        <button
-          type="button"
-          className="engraving-action-btn engraving-action-btn--confirm"
-          onClick={handleConfirm}
-          disabled={!hasPendingChanges}
-          aria-label="Confirm engraving text"
-          title={hasPendingChanges ? "Confirm" : "No changes to confirm"}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <path d="M20 6L9 17l-5-5" />
-          </svg>
-        </button>
-        <button
-          type="button"
-          className="engraving-action-btn engraving-action-btn--cancel"
-          onClick={handleCancel}
-          disabled={!hasPendingChanges}
-          aria-label="Cancel engraving edits"
-          title={hasPendingChanges ? "Cancel edits" : "No changes to cancel"}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            aria-hidden
-          >
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-
-      <h5 className="property-sub-heading">{property.subHeading1}</h5>
-      <div className="sub-options-container">
-        {property.subOptions1.map((option, index) => (
-          <div
-            className={`font-option ${index === 0 ? "selected" : ""}`}
-            key={option.name}
-          >
-            <img className="font-icon" src={option.img} alt={option.name} />
-          </div>
-        ))}
-      </div>
-
-      <h5 className="property-sub-heading">{property.subHeading2}</h5>
-      <div className="symbols">
-        {property.subOptions2.map((option) => (
-          <p className="symbol" key={option}>
-            {option}
-          </p>
-        ))}
       </div>
     </div>
   );

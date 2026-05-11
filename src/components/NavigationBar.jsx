@@ -13,6 +13,7 @@ import {
   StoneTabOptions,
 } from "../config/ringTabOptions";
 import { shankSupportsMatchingBand } from "../config/shankMatchingBandSupport";
+import { shankStyleBlocksThreeStone } from "../config/threeStoneShankCompatibility";
 import { useRingConfigurator } from "../context/RingConfiguratorContext";
 import HeadSection from "./HeadSection";
 import ResetConfiguratorModal, { ResetIcon } from "./ResetConfiguratorModal";
@@ -247,6 +248,35 @@ export default function NavigationBar() {
       if (allowed != null && !allowed.has(optionName)) return;
     }
 
+    if (
+      isHeadTab &&
+      category === "STYLE" &&
+      optionName === "Three Stone" &&
+      shankStyleBlocksThreeStone(currentStyle)
+    ) {
+      return;
+    }
+    if (isHeadTab && category === "STYLE") {
+      const allowedForCandidateHead = headAllowedStoneShapes(optionName);
+      if (
+        allowedForCandidateHead != null &&
+        !allowedForCandidateHead.has(currentStoneShape)
+      ) {
+        return;
+      }
+    }
+
+    if (
+      !isHeadTab &&
+      !isStoneTab &&
+      category === "STYLE" &&
+      !isSubOption &&
+      shankStyleBlocksThreeStone(optionName) &&
+      currentHeadStyle === "Three Stone"
+    ) {
+      return;
+    }
+
     const sourceOptions = isHeadTab
       ? headTabOptions
       : isStoneTab
@@ -343,8 +373,9 @@ export default function NavigationBar() {
           allowedForHead != null && allowedForHead.has("Oval")
             ? "Oval"
             : normalizeStoneShapeForHead(currentStoneShape, optionName);
-      } else if (allowedForHead == null || allowedForHead.has("Round")) {
-        nextShape = "Round";
+      } else if (allowedForHead == null) {
+        // Plain, Bezel, etc. accept every stone shape — keep the user's stone selection.
+        nextShape = currentStoneShape;
       } else {
         nextShape = normalizeStoneShapeForHead(currentStoneShape, optionName);
       }
@@ -380,6 +411,7 @@ export default function NavigationBar() {
           onSelectProperty={onSelectProperty}
           matchingBandEnabled={matchingBandEnabled}
           onToggleMatchingBand={handleMatchingBandToggle}
+          threeStoneHeadSelected={currentHeadStyle === "Three Stone"}
         />
       );
     }
@@ -390,9 +422,11 @@ export default function NavigationBar() {
           key={uiResetKey}
           options={headTabOptions}
           currentHeadStyle={currentHeadStyle}
+          currentStoneShape={currentStoneShape}
           onSelectProperty={onSelectProperty}
           biMetalEnabled={biMetalEnabled}
           onToggleBiMetal={handleBiMetalToggle}
+          disableThreeStoneOption={shankStyleBlocksThreeStone(currentStyle)}
         />
       );
     }

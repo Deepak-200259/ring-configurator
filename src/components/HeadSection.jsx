@@ -3,9 +3,11 @@ import { useState } from "react";
 export default function HeadSection({
   options,
   currentHeadStyle,
+  currentStoneShape,
   onSelectProperty,
   biMetalEnabled,
   onToggleBiMetal,
+  disableThreeStoneOption,
 }) {
   return options.map((propertySelector, i) => (
     <HeadPropertySelector
@@ -18,7 +20,11 @@ export default function HeadSection({
           ? { value: biMetalEnabled, onChange: onToggleBiMetal }
           : undefined
       }
-      disableMainOptions={Boolean(propertySelector.hasToggleSwitch && !biMetalEnabled)}
+      disableMainOptions={Boolean(
+        propertySelector.hasToggleSwitch && !biMetalEnabled,
+      )}
+      disableThreeStoneOption={disableThreeStoneOption}
+      currentStoneShape={currentStoneShape}
     />
   ));
 }
@@ -29,6 +35,8 @@ function HeadPropertySelector({
   onSelectProperty,
   toggleSwitch,
   disableMainOptions,
+  disableThreeStoneOption,
+  currentStoneShape,
 }) {
   const [hoveredOption, setHoveredOption] = useState(null);
   const toggleOn = Boolean(toggleSwitch?.value);
@@ -73,20 +81,39 @@ function HeadPropertySelector({
         </h4>
 
         <div className="property-options">
-          {content.options.map((option) => (
-            <div
-              className={`property-option ${option.isSelected ? "selected" : ""} ${disableMainOptions ? "property-option-disabled" : ""}`}
-              key={option.name}
-              onClick={() => {
-                if (disableMainOptions) return;
-                onSelectProperty(content.name, option.name);
-              }}
-              onMouseEnter={() => setHoveredOption(option)}
-              onMouseLeave={() => setHoveredOption(null)}
-            >
-              <img className="property-icon" src={option.img} alt={option.name} />
-            </div>
-          ))}
+          {content.options.map((option) => {
+            const disableThreeStone =
+              Boolean(disableThreeStoneOption) &&
+              content.name === "STYLE" &&
+              option.name === "Three Stone";
+            const disableStoneIncompatibleHeadStyle =
+              content.name === "STYLE" &&
+              Array.isArray(option.allowedStoneShapes) &&
+              !option.allowedStoneShapes.includes(currentStoneShape);
+            const disabled =
+              disableMainOptions ||
+              disableThreeStone ||
+              disableStoneIncompatibleHeadStyle;
+            return (
+              <div
+                className={`property-option ${option.isSelected ? "selected" : ""}${disabled ? " property-option-disabled" : ""}`}
+                key={option.name}
+                aria-disabled={disabled || undefined}
+                onClick={() => {
+                  if (disabled) return;
+                  onSelectProperty(content.name, option.name);
+                }}
+                onMouseEnter={() => setHoveredOption(option)}
+                onMouseLeave={() => setHoveredOption(null)}
+              >
+                <img
+                  className="property-icon"
+                  src={option.img}
+                  alt={option.name}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
